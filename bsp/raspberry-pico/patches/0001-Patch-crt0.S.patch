@@ -1,0 +1,38 @@
+From 9078dd6689186615d7788b9bb2dd2ac580d3730b Mon Sep 17 00:00:00 2001
+From: Victor-Stefan Jach <14238510+vjach@users.noreply.github.com>
+Date: Tue, 31 May 2022 20:51:35 +0200
+Subject: [PATCH] Patch crt0.S
+
+* Install the right handler for pensv
+* Set entry point to rtthread
+
+Signed-off-by: Victor-Stefan Jach <14238510+vjach@users.noreply.github.com>
+---
+ src/rp2_common/pico_standard_link/crt0.S | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/src/rp2_common/pico_standard_link/crt0.S b/src/rp2_common/pico_standard_link/crt0.S
+index f57ddfd..701fb04 100644
+--- a/src/rp2_common/pico_standard_link/crt0.S
++++ b/src/rp2_common/pico_standard_link/crt0.S
+@@ -40,7 +40,7 @@ __vectors:
+ .word isr_svcall
+ .word isr_invalid // Reserved, should never fire
+ .word isr_invalid // Reserved, should never fire
+-.word isr_pendsv
++.word PendSV_Handler
+ .word isr_systick
+ .word isr_irq0
+ .word isr_irq1
+@@ -252,7 +252,7 @@ platform_entry: // symbol for stack traces
+     // (e.g. if main is in SRAM and crt0 in flash)
+     ldr r1, =runtime_init
+     blx r1
+-    ldr r1, =main
++    ldr r1, =entry
+     blx r1
+     ldr r1, =exit
+     blx r1
+-- 
+2.25.1
+
