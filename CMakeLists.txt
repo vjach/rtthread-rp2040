@@ -15,7 +15,6 @@ include(externals.cmake)
 add_subdirectory(src)
 add_subdirectory(bsp/raspberry-pico)
 add_subdirectory(libcpu)
-add_subdirectory(application)
 
 add_compile_options(-Wall
         -Wno-format
