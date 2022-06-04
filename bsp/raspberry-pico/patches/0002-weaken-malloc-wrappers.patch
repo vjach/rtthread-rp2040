@@ -1,15 +1,15 @@
-From ba286aeccd59896aaafa762bf7daf230ff57b14d Mon Sep 17 00:00:00 2001
+From 5cae0343fb4b9ac4a105aef888057f7afc3700a7 Mon Sep 17 00:00:00 2001
 From: Victor-Stefan Jach <14238510+vjach@users.noreply.github.com>
 Date: Sat, 4 Jun 2022 16:53:38 +0200
 Subject: [PATCH] weaken malloc wrappers
 
 Signed-off-by: Victor-Stefan Jach <14238510+vjach@users.noreply.github.com>
 ---
- src/rp2_common/pico_malloc/pico_malloc.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ src/rp2_common/pico_malloc/pico_malloc.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
 diff --git a/src/rp2_common/pico_malloc/pico_malloc.c b/src/rp2_common/pico_malloc/pico_malloc.c
-index 4928a8e..86b642a 100644
+index 4928a8e..d997847 100644
 --- a/src/rp2_common/pico_malloc/pico_malloc.c
 +++ b/src/rp2_common/pico_malloc/pico_malloc.c
 @@ -28,7 +28,7 @@ static inline void check_alloc(__unused void *mem, __unused uint size) {
@@ -27,6 +27,15 @@ index 4928a8e..86b642a 100644
  
 -void *__wrap_calloc(size_t count, size_t size) {
 +__attribute__((weak)) void *__wrap_calloc(size_t count, size_t size) {
+ #if PICO_USE_MALLOC_MUTEX
+     mutex_enter_blocking(&malloc_mutex);
+ #endif
+@@ -62,7 +62,7 @@ void *__wrap_calloc(size_t count, size_t size) {
+     return rc;
+ }
+ 
+-void __wrap_free(void *mem) {
++__attribute__((weak)) void __wrap_free(void *mem) {
  #if PICO_USE_MALLOC_MUTEX
      mutex_enter_blocking(&malloc_mutex);
  #endif
