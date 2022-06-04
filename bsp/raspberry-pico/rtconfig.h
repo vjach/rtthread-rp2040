@@ -17,6 +17,8 @@
 #define RT_USING_IDLE_HOOK
 #define RT_IDLE_HOOK_LIST_SIZE 4
 #define IDLE_THREAD_STACK_SIZE 256
+//#define RT_USING_SMP
+//#define RT_CPUS_NR 2
 
 /* kservice optimization */
 
