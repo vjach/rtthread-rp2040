@@ -14,7 +14,7 @@ FetchContent_Declare(
     GIT_SHALLOW TRUE
     GIT_PROGRESS TRUE
     SOURCE_DIR ${CMAKE_SOURCE_DIR}/externals/pico_sdk
-    PATCH_COMMAND git am ${CMAKE_CURRENT_SOURCE_DIR}/bsp/raspberry-pico/patches/0001-Patch-crt0.S.patch
+    PATCH_COMMAND git am ${CMAKE_CURRENT_SOURCE_DIR}/bsp/raspberry-pico/patches/
 
     )
 
