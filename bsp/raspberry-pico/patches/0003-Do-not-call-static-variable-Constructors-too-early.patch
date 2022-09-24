@@ -1,0 +1,37 @@
+From d025218bcd577325f44d8057742448b62f397c77 Mon Sep 17 00:00:00 2001
+From: Victor-Stefan Jach <14238510+vjach@users.noreply.github.com>
+Date: Sat, 24 Sep 2022 22:41:57 +0200
+Subject: [PATCH] Do not call static variable Constructors too early
+
+Signed-off-by: Victor-Stefan Jach <14238510+vjach@users.noreply.github.com>
+---
+ src/rp2_common/pico_runtime/runtime.c | 13 +------------
+ 1 file changed, 1 insertion(+), 12 deletions(-)
+
+diff --git a/src/rp2_common/pico_runtime/runtime.c b/src/rp2_common/pico_runtime/runtime.c
+index 70dd3bb..866fd7c 100644
+--- a/src/rp2_common/pico_runtime/runtime.c
++++ b/src/rp2_common/pico_runtime/runtime.c
+@@ -161,18 +161,7 @@ void runtime_init(void) {
+     irq_init_priorities();
+     alarm_pool_init_default();
+ 
+-    // Start and end points of the constructor list,
+-    // defined by the linker script.
+-    extern void (*__init_array_start)(void);
+-    extern void (*__init_array_end)(void);
+-
+-    // Call each function in the list.
+-    // We have to take the address of the symbols, as __init_array_start *is*
+-    // the first function pointer, not the address of it.
+-    for (void (**p)(void) = &__init_array_start; p < &__init_array_end; ++p) {
+-        (*p)();
+-    }
+-
++    // NOTE: Do not call constructors of static variables here. OS init routine will take care of that as soon as heap is initialized
+ }
+ 
+ void __attribute__((noreturn)) _exit(__unused int status) {
+-- 
+2.25.1
+

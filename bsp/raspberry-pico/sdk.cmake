@@ -14,7 +14,9 @@ FetchContent_Declare(
     GIT_SHALLOW TRUE
     GIT_PROGRESS TRUE
     SOURCE_DIR ${CMAKE_SOURCE_DIR}/externals/pico_sdk
-    PATCH_COMMAND git am ${CMAKE_CURRENT_SOURCE_DIR}/bsp/raspberry-pico/patches/0001-Patch-crt0.S.patch ${CMAKE_CURRENT_SOURCE_DIR}/bsp/raspberry-pico/patches/0002-weaken-malloc-wrappers.patch
+    PATCH_COMMAND git am ${CMAKE_CURRENT_SOURCE_DIR}/bsp/raspberry-pico/patches/0001-Patch-crt0.S.patch 
+      ${CMAKE_CURRENT_SOURCE_DIR}/bsp/raspberry-pico/patches/0002-weaken-malloc-wrappers.patch
+      ${CMAKE_CURRENT_SOURCE_DIR}/bsp/raspberry-pico/patches/0003-Do-not-call-static-variable-Constructors-too-early.patch
     )
 
 if (NOT picosdk_POPULATED)
