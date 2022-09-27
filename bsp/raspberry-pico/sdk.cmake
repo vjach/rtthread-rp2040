@@ -17,6 +17,7 @@ FetchContent_Declare(
     PATCH_COMMAND git am ${CMAKE_CURRENT_SOURCE_DIR}/bsp/raspberry-pico/patches/0001-Patch-crt0.S.patch 
       ${CMAKE_CURRENT_SOURCE_DIR}/bsp/raspberry-pico/patches/0002-weaken-malloc-wrappers.patch
       ${CMAKE_CURRENT_SOURCE_DIR}/bsp/raspberry-pico/patches/0003-Do-not-call-static-variable-Constructors-too-early.patch
+      ${CMAKE_CURRENT_SOURCE_DIR}/bsp/raspberry-pico/patches/0004-call-exported-routines.patch
     )
 
 if (NOT picosdk_POPULATED)

@@ -1,0 +1,30 @@
+From 449d9e9bfa8c99452774d8edcad4c5ff9d33ca6b Mon Sep 17 00:00:00 2001
+From: Victor-Stefan Jach <14238510+vjach@users.noreply.github.com>
+Date: Tue, 27 Sep 2022 17:45:45 +0200
+Subject: [PATCH] call exported routines
+
+Signed-off-by: Victor-Stefan Jach <14238510+vjach@users.noreply.github.com>
+---
+ src/rp2_common/pico_standard_link/memmap_default.ld | 6 ++++++
+ 1 file changed, 6 insertions(+)
+
+diff --git a/src/rp2_common/pico_standard_link/memmap_default.ld b/src/rp2_common/pico_standard_link/memmap_default.ld
+index 07d5812..21c48c6 100644
+--- a/src/rp2_common/pico_standard_link/memmap_default.ld
++++ b/src/rp2_common/pico_standard_link/memmap_default.ld
+@@ -83,6 +83,12 @@ SECTIONS
+         *(SORT(.dtors.*))
+         *(.dtors)
+ 
++        /* section information for initial. */
++        . = ALIGN(4);
++        __rt_init_start = .;
++        KEEP(*(SORT(.rti_fn*)))
++        __rt_init_end = .;
++
+         *(.eh_frame*)
+         . = ALIGN(4);
+     } > FLASH
+-- 
+2.25.1
+

@@ -45,29 +45,39 @@ uint32_t systick_config(uint32_t ticks)
 
 void rt_hw_board_init()
 {
-    set_sys_clock_khz(PLL_SYS_KHZ, true);
+  set_sys_clock_khz(PLL_SYS_KHZ, true);
 
-    rt_system_heap_init(HEAP_BEGIN, HEAP_END);
+  rt_system_heap_init(HEAP_BEGIN, HEAP_END);
 
-    alarm_pool_init_default();
+  alarm_pool_init_default();
 
-    // Start and end points of the constructor list,
-    // defined by the linker script.
-    extern void (*__init_array_start)();
-    extern void (*__init_array_end)();
+  // Start and end points of the constructor list,
+  // defined by the linker script.
+  extern void (*__init_array_start)();
+  extern void (*__init_array_end)();
 
-    // Call each function in the list.
-    // We have to take the address of the symbols, as __init_array_start *is*
-    // the first function pointer, not the address of it.
-    for (void (**p)() = &__init_array_start; p < &__init_array_end; ++p) {
-        (*p)();
-    }
+  // Call each function in the list.
+  // We have to take the address of the symbols, as __init_array_start *is*
+  // the first function pointer, not the address of it.
+  for (void (**p)() = &__init_array_start; p < &__init_array_end; ++p) {
+    (*p)();
+  }
 
-    /* Configure the SysTick */
-    systick_config(frequency_count_khz(CLOCKS_FC0_SRC_VALUE_ROSC_CLKSRC)*10000/RT_TICK_PER_SECOND);
+  /* Configure the SysTick */
+  systick_config(frequency_count_khz(CLOCKS_FC0_SRC_VALUE_ROSC_CLKSRC)*10000/RT_TICK_PER_SECOND);
 
-    stdio_init_all();
-//    rt_hw_uart_init();
+  stdio_init_all();
+  //    rt_hw_uart_init();
+  extern void (*__rt_init_start)();
+  extern void (*__rt_init_end)();
+
+  // Call each function in the list.
+  // We have to take the address of the symbols, as __init_array_start *is*
+  // the first function pointer, not the address of it.
+  for (void (**p)() = &__rt_init_start; p < &__rt_init_end; ++p) {
+    (*p)();
+  }
+
 
 #ifdef RT_USING_CONSOLE
    rt_console_set_device(RT_CONSOLE_DEVICE_NAME);
