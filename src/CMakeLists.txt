@@ -19,7 +19,7 @@ add_executable(rtthread
   heap_wrappers.c
   )
 
-target_include_directories(rtthread SYSTEM PUBLIC ${PROJECT_SOURCE_DIR}/include ${PROJECT_SOURCE_DIR}/bsp/raspberry-pico)
+target_include_directories(rtthread SYSTEM PUBLIC ${PROJECT_SOURCE_DIR}/include ${PROJECT_SOURCE_DIR}/src/drivers/include ${PROJECT_SOURCE_DIR}/bsp/raspberry-pico)
 
 # Pull in our pico_stdlib which pulls in commonly used features
 target_link_libraries(rtthread pico_stdlib hardware_clocks hardware_i2c hardware_spi hardware_pwm hardware_dma hardware_uart pico_multicore)
