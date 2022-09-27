@@ -15,6 +15,7 @@
 #include <rtthread.h>
 
 #include "board.h"
+#include "drivers/pin.h"
 
 int rt_hw_gpio_init(void);
 

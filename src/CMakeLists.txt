@@ -17,6 +17,7 @@ add_executable(rtthread
   thread.c
   timer.c
   heap_wrappers.c
+  drivers/misc/pin.c
   )
 
 target_include_directories(rtthread SYSTEM PUBLIC ${PROJECT_SOURCE_DIR}/include ${PROJECT_SOURCE_DIR}/src/drivers/include ${PROJECT_SOURCE_DIR}/bsp/raspberry-pico)
