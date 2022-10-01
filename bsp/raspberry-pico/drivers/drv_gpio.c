@@ -10,7 +10,9 @@
 
 #include "drv_gpio.h"
 
-typedef void (*hdr)(void *args) irq_handler;
+#include <string.h>
+
+typedef void (*irq_handler)(void *args);
 typedef struct {
     irq_handler handler;
     void *cookie;
@@ -60,6 +62,8 @@ static int pico_pin_read(struct rt_device *device, rt_base_t pin) {
 
 static rt_err_t pin_attach_irq(struct rt_device *device, rt_int32_t pin, rt_uint32_t mode, void (*hdr)(void *args),
                                void *args) {
+    pin_irq_entry[pin].handler = hdr;
+    pin_irq_entry[pin].cookie = args;
     gpio_set_irq_enabled_with_callback(pin, GPIO_IRQ_EDGE_RISE, true, pico_gpio_handler);
 }
 
@@ -69,7 +73,7 @@ static const struct rt_pin_ops ops = {
 
 int rt_hw_gpio_init(void) {
     rt_device_pin_register("gpio", &ops, RT_NULL);
-    memset(pin_irq_handlers, 0, sizeof(pin_irq_handlers));
+    memset(pin_irq_entry, 0, sizeof(pin_irq_entry));
 
     return 0;
 }
